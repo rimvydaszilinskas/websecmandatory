@@ -48,7 +48,7 @@ module.exports = () => {
             body('password2').isLength({ min: 6, max: 30 }),
             body('firstName').isLength({ min: 1, max: 30 }),
             body('lastName').isLength({ min: 1, max: 30 }),
-            body('email').isLength({ max: 50 }).isEmail(),
+            body('email').isLength({ min: 5, max: 50 }).isEmail(),
         ],
         (req, res) => {
             const errors = validationResult(req);
