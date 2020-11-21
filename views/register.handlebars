@@ -4,6 +4,16 @@
     <input type="password" name="password2" placeholder="password">
     <input type="text" name="firstName" placeholder="first name">
     <input type="text" name="lastName" placeholder="last name">
+    <input type="email" name="email" placeholder="email">
 
     <button type="submit">Register</button>
+
+    {{#if errors}}
+    {{!-- {{#if errors.default}}
+    <p>{{{errors.default}}}</p>
+    {{/if}} --}}
+    {{#each errors}}
+    <p>{{this.param}}: {{this.msg}}</p>
+    {{/each}}
+    {{/if}}
 </form>

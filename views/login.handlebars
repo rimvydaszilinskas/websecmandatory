@@ -2,4 +2,9 @@
     <input type="text" name="username" placeholder="username">
     <input type="password" name="password" placeholder="password">
     <button type="submit">Login</button>
+    {{#if errors}}
+    {{#if errors.default}}
+    <p>{{{errors.default}}}</p>
+    {{/if}}
+    {{/if}}
 </form>

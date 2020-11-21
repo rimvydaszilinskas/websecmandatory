@@ -2,7 +2,7 @@ const Router = require('express').Router;
 
 const { readdirSync } = require('fs');
 
-module.exports = () => {
+module.exports = (dals) => {
     const router = Router();
 
     // import all the routers from subdirectories
@@ -11,7 +11,7 @@ module.exports = () => {
         .filter((p) => p.isDirectory())
         .map((p) => p.name)
         .forEach((p) => {
-            const pkg = require('./' + p)();
+            const pkg = require('./' + p)(dals);
             router.use(pkg.path, pkg.router);
         });
 

@@ -3,7 +3,7 @@ const { body, validationResult } = require('express-validator');
 
 const { errorArrayToMap } = require('../../utils/errormappers');
 
-module.exports = () => {
+module.exports = (dals) => {
     const router = Router();
 
     router.get('/login', (req, res) => {
@@ -27,10 +27,26 @@ module.exports = () => {
                 });
             }
 
-            req.session.loggedin = true;
-            req.session.userID = 1;
+            dals.users
+                .getUserByUsernameWithPassword(req.body.username)
+                .then((user) => {
+                    if (user !== null) {
+                        req.session.loggedin = true;
+                        req.session.userID = user.id;
+                        return res.redirect('/posts');
+                    }
 
-            res.redirect('/posts');
+                    res.render('login', {
+                        title: 'Login',
+                        errors: {
+                            default: 'Wrong credentials',
+                        },
+                    });
+                })
+                .catch((err) => {
+                    console.error(err);
+                    return res.status(500).send();
+                });
         },
     );
 
@@ -58,7 +74,30 @@ module.exports = () => {
                     errors: errorArrayToMap(errors.array()),
                 });
             }
-            res.render('register');
+
+            dals.users
+                .createUser(
+                    req.body.username,
+                    req.body.email,
+                    req.body.firstName,
+                    req.body.lastName,
+                    req.body.password,
+                )
+                .then((user) => {
+                    res.redirect('/users/login');
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.render('register', {
+                        title: 'Register',
+                        errors: {
+                            default: {
+                                msg: err,
+                                param: 'default',
+                            },
+                        },
+                    });
+                });
         },
     );
 

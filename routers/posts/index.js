@@ -1,6 +1,6 @@
 const Router = require('express').Router;
 
-module.exports = () => {
+module.exports = (dals) => {
     const router = Router();
 
     router.get('/', (req, res) => {
