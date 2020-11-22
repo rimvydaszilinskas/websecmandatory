@@ -23,4 +23,4 @@ create table posts(
     foreign key (user_id) references users(id)
 );
 
-grant all privileges on kea_websec.* to "kea"@"%" with grant option;
+-- grant all privileges on kea_websec.* to "kea"@"%" with grant option;

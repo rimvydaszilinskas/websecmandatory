@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    websec_express:
+        container_name: websec_express
+        build: .
+        ports:
+            - "3000:3000"
+        environment:
+            - PORT=3000
+            - DB_USER=root
+            - DB_PASS=password
+            - DB_HOST=websec_db
+            - DB_NAME=kea_websec
+        restart: on-failure
+        depends_on:
+            - websec_db
+
+    websec_db:
+        container_name: websec_db
+        image: mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_USER=websec
+            - MYSQL_PASSWORD=password
+            - MYSQL_DATABASE=kea_websec
+        volumes:
+          - ./data:/var/lib/mysql
+        ports:
+            - "3307:3306"
