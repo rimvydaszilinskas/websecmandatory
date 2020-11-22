@@ -2,7 +2,7 @@ module.exports = (db) => {
     const getUserByPK = (pk) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'SELECT id, username, email, first_name, last_name FROM users WHERE id=? LIMIT 1',
+                'SELECT id, username, email, first_name, last_name, isAdmin FROM users WHERE id=? LIMIT 1',
                 [pk],
                 (err, res) => {
                     if (err) {
@@ -17,7 +17,7 @@ module.exports = (db) => {
     const getUserByEmailOrUsername = (input) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'SELECT id, username, email, first_name, last_name FROM users WHERE username=? OR email=? LIMIT 1',
+                'SELECT id, username, email, first_name, last_name, isAdmin FROM users WHERE username=? OR email=? LIMIT 1',
                 [input, input],
                 (err, res) => {
                     if (err) {
@@ -32,7 +32,7 @@ module.exports = (db) => {
     const checkIfUserExists = (email, username) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'SELECT id, username, email, first_name, last_name FROM users WHERE username=? OR email=? LIMIT 1',
+                'SELECT id, username, email, first_name, last_name, isAdmin FROM users WHERE username=? OR email=? LIMIT 1',
                 [username, email],
                 (err, res) => {
                     if (err) {
@@ -47,7 +47,7 @@ module.exports = (db) => {
     const getUserByEmail = (email) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'SELECT id, username, email, first_name, last_name FROM users WHERE email=? LIMIT 1',
+                'SELECT id, username, email, first_name, last_name, isAdmin FROM users WHERE email=? LIMIT 1',
                 [email],
                 (err, res) => {
                     if (err) {
@@ -62,7 +62,7 @@ module.exports = (db) => {
     const getUserByEmailWithPassword = (email) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'SELECT id, username, email, first_name, last_name, password FROM users WHERE email=? LIMIT 1',
+                'SELECT id, username, email, first_name, last_name, password, isAdmin FROM users WHERE email=? LIMIT 1',
                 [email],
                 (err, res) => {
                     if (err) {
@@ -77,7 +77,7 @@ module.exports = (db) => {
     const getUserByUsernameWithPassword = (username) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'SELECT id, username, email, first_name, last_name, password FROM users WHERE username=? LIMIT 1',
+                'SELECT id, username, email, first_name, last_name, password, isAdmin FROM users WHERE username=? LIMIT 1',
                 [username],
                 (err, res) => {
                     if (err) {

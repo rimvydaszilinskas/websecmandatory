@@ -59,9 +59,25 @@ module.exports = (db) => {
             );
         });
 
+    const deletePostByPK = (pk) =>
+        new Promise((resolve, reject) => {
+            db.query(
+                'DELETE FROM posts WHERE id=?',
+                [pk],
+                (err, res) => {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    resolve(res);
+                },
+            );
+        });
+
     return {
         getPostByPK: getPostByPK,
         createPost: createPost,
         getAllPosts: getAllPosts,
+        deletePostByPK: deletePostByPK,
     };
 };

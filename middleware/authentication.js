@@ -26,3 +26,11 @@ module.exports.isAuthenticatedMiddleware = (req, res, next) => {
 
     next();
 };
+
+module.exports.isAdminMiddleware = (req, res, next) => {
+    if (!req.session.user.isAdmin) {
+        return res.status(403).json({ error: 'Invalid permissions' });
+    }
+
+    return next();
+};

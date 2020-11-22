@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator');
 
 const {
     isAuthenticatedMiddleware,
+    isAdminMiddleware,
 } = require('../../middleware/authentication');
 const { errorArrayToMap } = require('../../utils/errormappers');
 
@@ -17,6 +18,7 @@ module.exports = (dals) => {
                 return res.render('posts', {
                     title: 'Posts',
                     posts: posts,
+                    user: req.session.user,
                 });
             })
             .catch((err) => {
@@ -52,6 +54,18 @@ module.exports = (dals) => {
                 });
         },
     );
+
+    router.get('/:id/delete', isAdminMiddleware, (req, res) => {
+        dals.posts.deletePostByPK(req.params.id).then((result) => {
+            if (result.affectedRows !== 0) {
+                return res.redirect('/posts/');
+            }
+
+            return res
+                .status(404)
+                .json({ error: 'Cannot find the post' });
+        });
+    });
 
     return {
         router: router,

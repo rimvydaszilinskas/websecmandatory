@@ -6,12 +6,15 @@
 </div>
 
 <div>
-    <table>
+    <table style="">
         <tr>
             <th>ID</th>
             <th>TEXT</th>
             <th>USER</th>
             <th>CREATED AT</th>
+            {{#if user.isAdmin}}
+            <th>ACTIONS</th>
+            {{/if}}
         </tr>
 
         {{#each posts}}
@@ -20,6 +23,9 @@
             <td>{{this.post}}</td>
             <td>{{this.user.id}} {{this.user.first}} {{this.user.last}}</td>
             <td>{{this.created_at}}</td>
+            {{#if ../user.isAdmin}}
+            <td><a href="/posts/{{this.id}}/delete/">Delete</a></td>
+            {{/if}}
         </tr>
         {{/each}}
     </table>
