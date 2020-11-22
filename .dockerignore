@@ -1,0 +1,9 @@
+.vscode
+.env
+.prettierrc
+
+node-modules
+package-lock.json
+README.md
+
+sql/
