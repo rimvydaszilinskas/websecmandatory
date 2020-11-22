@@ -2,6 +2,10 @@ const Router = require('express').Router;
 const { body, validationResult } = require('express-validator');
 
 const { errorArrayToMap } = require('../../utils/errormappers');
+const {
+    hashPassword,
+    comparePasswords,
+} = require('../../utils/passwords');
 
 module.exports = (dals) => {
     const router = Router();
@@ -31,9 +35,16 @@ module.exports = (dals) => {
                 .getUserByUsernameWithPassword(req.body.username)
                 .then((user) => {
                     if (user !== null) {
-                        req.session.loggedin = true;
-                        req.session.userID = user.id;
-                        return res.redirect('/posts');
+                        if (
+                            comparePasswords(
+                                req.body.password,
+                                user.password,
+                            )
+                        ) {
+                            req.session.loggedin = true;
+                            req.session.userID = user.id;
+                            return res.redirect('/posts');
+                        }
                     }
 
                     res.render('login', {
@@ -75,19 +86,31 @@ module.exports = (dals) => {
                 });
             }
 
+            if (req.body.password !== req.body.password2) {
+                return res.render('register', {
+                    title: 'Register',
+                    errors: {
+                        default: {
+                            msg: 'Passwords do not match',
+                            param: 'default',
+                        },
+                    },
+                });
+            }
+
             dals.users
                 .createUser(
                     req.body.username,
                     req.body.email,
                     req.body.firstName,
                     req.body.lastName,
-                    req.body.password,
+                    hashPassword(req.body.password),
                 )
                 .then((user) => {
                     res.redirect('/users/login');
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.error(err);
                     res.render('register', {
                         title: 'Register',
                         errors: {

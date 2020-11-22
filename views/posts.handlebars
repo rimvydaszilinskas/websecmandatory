@@ -1,0 +1,26 @@
+<div>
+    <form method="POST">
+        <textarea id="text" placeholder="post" name="text"></textarea>
+        <button type="submit">Create new</button>
+    </form>
+</div>
+
+<div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>TEXT</th>
+            <th>USER</th>
+            <th>CREATED AT</th>
+        </tr>
+
+        {{#each posts}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.post}}</td>
+            <td>{{this.user.id}} {{this.user.first}} {{this.user.last}}</td>
+            <td>{{this.created_at}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</div>

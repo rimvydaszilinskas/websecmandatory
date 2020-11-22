@@ -1,7 +1,7 @@
 module.exports.userMiddleware = (userDal) => {
     // check if user is authenticated and try parsing the user model from the database
     return (req, res, next) => {
-        if (req.session.isAuthenticated) {
+        if (req.session.loggedin) {
             userDal
                 .getUserByPK(req.session.userID)
                 .then((user) => {
@@ -20,7 +20,7 @@ module.exports.userMiddleware = (userDal) => {
 
 module.exports.isAuthenticatedMiddleware = (req, res, next) => {
     // check if user session is authenticated, if not redirect to login page
-    if (!req.session.isAuthenticated) {
+    if (!req.session.loggedin) {
         return res.redirect('/users/login');
     }
 

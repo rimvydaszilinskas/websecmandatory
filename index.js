@@ -7,6 +7,7 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const mysql = require('mysql2');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 const { userMiddleware } = require('./middleware/authentication');
 const router = require('./routers');
@@ -14,20 +15,21 @@ const DALS = require('./dals');
 
 const connection = mysql.createConnection({
     host: process.env.DB_HOST,
-    port: process.env.PORT || 3306,
+    port: process.env.DB_PORT || 3306,
     user: process.env.DB_USER || 'kea',
     database: process.env.DB_NAME || 'kea_websec',
     password: process.env.DB_PASS || 'password',
 });
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const hbs = exphbs.create({
     helpers: {},
 });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+app.use(cookieParser());
 app.use(
     session({
         secret: process.env.SESSION_SECRET || 'keyboard cat',
@@ -35,6 +37,7 @@ app.use(
         saveUninitialized: true,
         cookie: {
             secure: false,
+            maxAge: 3600000,
         },
     }),
 );

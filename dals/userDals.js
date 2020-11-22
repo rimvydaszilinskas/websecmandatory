@@ -135,5 +135,6 @@ module.exports = (db) => {
         getUserByEmailWithPassword: getUserByEmailWithPassword,
         getUserByUsernameWithPassword: getUserByUsernameWithPassword,
         createUser: createUser,
+        getUserByEmailOrUsername: getUserByEmailOrUsername,
     };
 };
