@@ -1,6 +1,35 @@
-<h3>New post</h3>
-<p>Author: {{post.user_id}} {{post.user.first}} {{post.user.last}}</p>
-<p>Created at: {{post.created_at}}</p>
-</hr>
-<p>{{post.post}}</p>
-<p><a href="/posts/">Back to posts</a></p>
+<div>
+    <h3>Post {{post.id}}</h3>
+    <p>Author: {{post.user_id}} {{post.user.first}} {{post.user.last}}</p>
+    <p>Created at: {{post.created_at}}</p>
+    </hr>
+    <p>{{post.post}}</p>
+    <p><a href="/posts/">Back to posts</a></p>
+</div>
+
+<div>
+    <form method="POST" action="/posts/{{post.id}}/comments">
+        <textarea id="text" placeholder="comment" name="text"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<div>
+    <table style="">
+        <tr>
+            <th>ID</th>
+            <th>COMMENT</th>
+            <th>USER</th>
+            <th>CREATED AT</th>
+        </tr>
+
+        {{#each comments}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.comment}}</td>
+            <td>{{this.user.id}} {{this.user.first}} {{this.user.last}}</td>
+            <td>{{this.created_at}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</div>

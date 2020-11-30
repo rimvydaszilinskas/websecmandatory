@@ -106,7 +106,7 @@ module.exports = (dals) => {
                     req.body.lastName,
                     hashPassword(req.body.password),
                 )
-                .then((user) => {
+                .then((_) => {
                     res.redirect('/users/login');
                 })
                 .catch((err) => {

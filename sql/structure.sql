@@ -20,7 +20,19 @@ create table posts(
     post text not null,
     user_id integer not null,
     created_at timestamp not null default current_timestamp,
-    foreign key (user_id) references users(id)
+    foreign key (user_id) references users(id) on delete cascade
+);
+
+drop table if exists comments;
+create table comments(
+	id integer auto_increment primary key,
+    post_id integer not null,
+    user_id integer not null,
+    comment text not null,
+    created_at timestamp not null default current_timestamp,
+	
+    foreign key (user_id) references users(id) on delete cascade,
+    foreign key (post_id) references posts(id) on delete cascade
 );
 
 -- grant all privileges on kea_websec.* to "kea"@"%" with grant option;

@@ -20,7 +20,7 @@
         {{#each posts}}
         <tr>
             <td>{{this.id}}</td>
-            <td>{{this.post}}</td>
+            <td><a href="/posts/{{this.id}}">{{this.post}}</a></td>
             <td>{{this.user.id}} {{this.user.first}} {{this.user.last}}</td>
             <td>{{this.created_at}}</td>
             {{#if ../user.isAdmin}}
