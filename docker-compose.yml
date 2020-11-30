@@ -26,5 +26,6 @@ services:
             - MYSQL_DATABASE=kea_websec
         volumes:
           - ./data:/var/lib/mysql
+          - ./sql/structure.sql:/docker-entrypoint-initdb.d/structure.sql
         ports:
             - "3307:3306"
