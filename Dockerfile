@@ -10,4 +10,4 @@ RUN npm i
 
 COPY . .
 
-CMD sleep 5 && node index.js
+CMD sleep 10 && node index.js
