@@ -8,6 +8,7 @@ const session = require('express-session');
 const mysql = require('mysql2');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet')
 
 const { userMiddleware } = require('./middleware/authentication');
 const router = require('./routers');
@@ -44,6 +45,7 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined'));
+app.use(helmet())
 
 connection.connect((err) => {
     if (err) {
